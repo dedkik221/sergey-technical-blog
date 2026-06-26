@@ -1,7 +1,7 @@
 <figure class="architecture-diagram" aria-labelledby="architecture-diagram-title">
-  <figcaption id="architecture-diagram-title">Архитектура сервиса на верхнем уровне</figcaption>
+  <figcaption id="architecture-diagram-title">Архитектура AutoCut-плагина для Premiere</figcaption>
 
-  <div class="diagram-canvas" aria-label="Поток обработки видео">
+  <div class="diagram-canvas" aria-label="Поток анализа AutoCut внутри Premiere">
     <svg class="diagram-wires" viewBox="0 0 640 280" aria-hidden="true">
       <path d="M74 186v44h211" />
       <path d="M192 186v26c0 11 9 20 20 20h74" />
@@ -12,31 +12,30 @@
 
     <div class="diagram-flow">
       <div class="diagram-node source">
-        <strong>Пользователь<br />(Telegram)</strong>
-        <span class="diagram-person" aria-hidden="true"></span>
-        <span class="diagram-icon telegram-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="m20.1 4.7-3.2 15.1c-.2.9-.9 1.1-1.7.7l-4.7-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.4-4.9 8.9-8c.4-.4-.1-.6-.6-.2L4.9 13.5.2 12c-1-.3-1-1 .2-1.5L18.8 3.4c.8-.3 1.6.2 1.3 1.3Z"/></svg>
+        <strong>Premiere<br />timeline</strong>
+        <span class="diagram-icon timeline-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 6h16v3H4V6Zm0 5h7v3H4v-3Zm9 0h7v3h-7v-3ZM4 16h4v3H4v-3Zm6 0h10v3H10v-3Z"/></svg>
         </span>
       </div>
 
       <div class="diagram-arrow" aria-hidden="true">→</div>
 
       <div class="diagram-node">
-        <strong>Приём и загрузка<br />файлов</strong>
-        <span class="diagram-icon folder-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M3 7.2c0-1 .8-1.8 1.8-1.8h4.7l2 2h7.7c1 0 1.8.8 1.8 1.8v9c0 1-.8 1.8-1.8 1.8H4.8c-1 0-1.8-.8-1.8-1.8v-11Z"/></svg>
+        <strong>UXP<br />панель</strong>
+        <span class="diagram-icon panel-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 5h16v14H4V5Zm2 2v2h12V7H6Zm0 4v6h5v-6H6Zm7 0v2h5v-2h-5Zm0 4v2h5v-2h-5Z"/></svg>
         </span>
       </div>
 
       <div class="diagram-arrow" aria-hidden="true">→</div>
 
       <div class="diagram-node process">
-        <strong>Обработка</strong>
+        <strong>AutoCut<br />Bridge</strong>
         <ol>
-          <li>Аудио</li>
-          <li>Распознавание</li>
-          <li>Анализ</li>
-          <li>Монтаж</li>
+          <li>job JSON</li>
+          <li>media path</li>
+          <li>status</li>
+          <li>payload</li>
         </ol>
         <span class="diagram-icon chip-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M8 3h2v3h4V3h2v3h1.5A2.5 2.5 0 0 1 20 8.5V10h3v2h-3v2h3v2h-3v1.5a2.5 2.5 0 0 1-2.5 2.5H16v3h-2v-3h-4v3H8v-3H6.5A2.5 2.5 0 0 1 4 17.5V16H1v-2h3v-2H1v-2h3V8.5A2.5 2.5 0 0 1 6.5 6H8V3Zm-1 5v10h10V8H7Zm3 3h4v4h-4v-4Z"/></svg>
@@ -46,24 +45,24 @@
       <div class="diagram-arrow" aria-hidden="true">→</div>
 
       <div class="diagram-node">
-        <strong>Рендеринг</strong>
+        <strong>Audio Atlas<br />Core</strong>
         <span class="diagram-icon render-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M4 5h16v14H4V5Zm2 2v10h12V7H6Zm4 2.5 5 2.5-5 2.5v-5Z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M5 12a7 7 0 0 1 14 0h-2a5 5 0 0 0-10 0H5Zm-3 0a10 10 0 0 1 20 0h-2a8 8 0 0 0-16 0H2Zm7 0a3 3 0 0 1 6 0v7H9v-7Zm2 0v5h2v-5a1 1 0 0 0-2 0Z"/></svg>
         </span>
       </div>
 
       <div class="diagram-arrow" aria-hidden="true">→</div>
 
       <div class="diagram-node result">
-        <strong>Готовое видео</strong>
+        <strong>Markers<br />Review</strong>
         <span class="diagram-icon video-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm2 4v10l7-5-7-5Z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-3-6 3V3Zm2 3v11.8l4-2 4 2V6H8Zm2 3h4v2h-4V9Zm0 4h3v2h-3v-2Z"/></svg>
         </span>
       </div>
     </div>
 
     <div class="diagram-storage" aria-hidden="true">
-      <span>Хранилище<br />(временное)</span>
+      <span>Project<br />workdir</span>
     </div>
   </div>
 </figure>

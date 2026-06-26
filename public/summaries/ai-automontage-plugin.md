@@ -1,3 +1,3 @@
-# Summary: AI-автомонтаж коротких видео
+# Summary: AutoCut для Adobe Premiere
 
-Статья объясняет подход к AI-автомонтажу как к инженерному pipeline. Автоматизируется рутинный слой: поиск фраз, пауз, дублей, аудиособытий и сборка rough cut. Ключевые идеи: SRT + FCPXML, Audio Atlas, EditPlan, Premiere UXP panel, Telegram-сценарий для коротких роликов, честные ограничения и early feedback.
+Статья описывает AutoCut как будущий Adobe Premiere Pro UXP-плагин. Главная идея: панель внутри Premiere читает active sequence/selection, собирает `analysis_job.json`, передает задачу локальному AutoCut Bridge, а Python/Audio Atlas Core считает RMS/VAD/WhisperX-события и возвращает `markers_payload.json`. Первый MVP — marker-only: ставить маркеры тишины, речи и review-зон без автоматического удаления фрагментов.
