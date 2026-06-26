@@ -26,6 +26,7 @@ const href = pathForArticle(article.id);
     }
   </h2>
   <p>{article.data.description}</p>
+  {!article.data.draft && <a class="card-link" href={href}>Читать</a>}
   <ul class="tag-list" aria-label="Теги">
     {article.data.tags.map((tag) => <li>{tag}</li>)}
   </ul>

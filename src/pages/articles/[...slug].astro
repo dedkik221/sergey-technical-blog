@@ -43,6 +43,11 @@ const jsonLd = [
 
     <article class="article-main" data-pagefind-body>
       <header class="article-header">
+        <nav class="article-breadcrumbs" aria-label="Навигация по статье" data-pagefind-ignore>
+          <a href="/articles/">Статьи</a>
+          <span aria-hidden="true">/</span>
+          <span>{article.data.title}</span>
+        </nav>
         <div class="article-meta">
           <time datetime={article.data.datePublished.toISOString()}>
             {formatDate(article.data.datePublished)}

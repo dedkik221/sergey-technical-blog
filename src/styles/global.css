@@ -198,7 +198,8 @@ button:disabled {
 
 .nav a {
   border-radius: 0;
-  padding: 0;
+  padding: 0.18rem 0 0.24rem;
+  border-bottom: 2px solid transparent;
   color: var(--ink);
   font-size: 0.82rem;
   font-weight: 500;
@@ -209,6 +210,7 @@ button:disabled {
 .nav a[aria-current="page"] {
   background: transparent;
   color: var(--ink);
+  border-bottom-color: var(--ink);
   text-decoration: none;
 }
 
@@ -366,6 +368,20 @@ button:disabled {
 .content-card p {
   color: var(--muted);
   font-size: 0.98rem;
+}
+
+.card-link {
+  display: inline-flex;
+  margin-top: 0.25rem;
+  color: var(--ink);
+  font-size: 0.88rem;
+  font-weight: 720;
+  text-decoration: none;
+}
+
+.card-link::after {
+  content: "→";
+  margin-left: 0.35rem;
 }
 
 .content-card.is-muted {
@@ -572,6 +588,27 @@ button:disabled {
 .article-header {
   margin-bottom: 1rem;
   padding-top: 1.72rem;
+}
+
+.article-breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.38rem;
+  align-items: center;
+  margin-bottom: 0.62rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.article-breadcrumbs a {
+  color: var(--ink);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.article-breadcrumbs span:last-child {
+  max-width: 100%;
 }
 
 .article-header h1 {
