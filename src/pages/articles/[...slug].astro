@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import ArchitectureDiagram from '@components/ArchitectureDiagram.astro';
 import AuthorSidebar from '@components/AuthorSidebar.astro';
 import FeedbackForm from '@components/FeedbackForm.astro';
 import Layout from '@components/Layout.astro';
@@ -52,6 +53,8 @@ const jsonLd = [
         <h1>{article.data.title}</h1>
         <p>{article.data.description}</p>
       </header>
+
+      {article.id === 'ai-automontage-plugin' && <ArchitectureDiagram />}
 
       <div class="prose article-content">
         <Content />

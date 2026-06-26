@@ -1,14 +1,17 @@
 ---
-import { getPublishedArticles, pathForArticle } from '@lib/content';
+import { getCollection } from 'astro:content';
+import { pathForArticle, formatDate } from '@lib/content';
 import { site } from '@lib/site';
 
-const articles = await getPublishedArticles();
+const articles = (await getCollection('articles'))
+  .sort((a, b) => b.data.datePublished.getTime() - a.data.datePublished.getTime())
+  .slice(0, 5);
 const feedbackReady = Boolean(site.feedbackEndpoint);
 ---
 
 <aside class="author-sidebar" data-pagefind-ignore>
   <div class="author-card">
-    <div class="author-avatar" aria-hidden="true">{site.author.avatarInitials}</div>
+    <img class="author-avatar" src={site.author.avatarImage} alt="" width="96" height="96" loading="lazy" />
     <div>
       <p class="author-kicker">Автор</p>
       <h2>{site.author.name}</h2>
@@ -29,7 +32,14 @@ const feedbackReady = Boolean(site.feedbackEndpoint);
       {
         articles.slice(0, 5).map((article) => (
           <li>
-            <a href={pathForArticle(article.id)}>{article.data.title}</a>
+            {
+              article.data.draft ? (
+                <span>{article.data.title}</span>
+              ) : (
+                <a href={pathForArticle(article.id)}>{article.data.title}</a>
+              )
+            }
+            <time datetime={article.data.datePublished.toISOString()}>{formatDate(article.data.datePublished)}</time>
           </li>
         ))
       }
@@ -37,11 +47,11 @@ const feedbackReady = Boolean(site.feedbackEndpoint);
   </section>
 
   <section class="sidebar-section subscribe-box">
-    <h3>Подписка</h3>
-    <p>Редкие заметки о видео, автоматизации и AI-инструментах.</p>
+    <h3>Подписка на обновления</h3>
+    <p>Новые статьи и новости о проекте — без спама.</p>
     <form action={feedbackReady ? site.feedbackEndpoint : undefined} method={feedbackReady ? 'POST' : undefined}>
-      <input type="email" name="email" placeholder="email@example.com" autocomplete="email" />
-      <button type={feedbackReady ? 'submit' : 'button'}>{feedbackReady ? 'Подписаться' : 'Скоро'}</button>
+      <input type="email" name="email" placeholder="Ваш email" autocomplete="email" />
+      <button type={feedbackReady ? 'submit' : 'button'}>{feedbackReady ? 'Подписаться' : 'Подписаться'}</button>
     </form>
   </section>
 

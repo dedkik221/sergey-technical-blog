@@ -2,7 +2,7 @@ const rawSiteUrl = import.meta.env.SITE_URL || 'https://example.com';
 
 export const site = {
   name: 'Сергей: видео, AI-автомонтаж и self-hosted workflow',
-  shortName: 'Devlog Сергея',
+  shortName: 'sergey.devlog',
   description:
     'Личный технический блог о видео, автоматизации монтажа, AI-инструментах, Premiere/DaVinci и self-hosted процессах.',
   siteUrl: rawSiteUrl.replace(/\/$/, ''),
@@ -11,6 +11,7 @@ export const site = {
   author: {
     name: 'Сергей',
     avatarInitials: 'С',
+    avatarImage: '/images/avatar.svg',
     role: 'видео / автоматизация / AI-инструменты',
     description:
       'Я исследую и собираю инструменты на стыке видеопроизводства, автоматизации монтажа, AI и локальной инфраструктуры.',

@@ -2,38 +2,47 @@
   <figcaption id="architecture-diagram-title">Архитектура сервиса на верхнем уровне</figcaption>
   <div class="diagram-flow" aria-label="Поток обработки видео">
     <div class="diagram-node source">
-      <span>Пользователь</span>
-      <strong>Telegram</strong>
+      <strong>Пользователь<br />(Telegram)</strong>
+      <span class="diagram-icon telegram-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="m20.1 4.7-3.2 15.1c-.2.9-.9 1.1-1.7.7l-4.7-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.4-4.9 8.9-8c.4-.4-.1-.6-.6-.2L4.9 13.5.2 12c-1-.3-1-1 .2-1.5L18.8 3.4c.8-.3 1.6.2 1.3 1.3Z"/></svg>
+      </span>
     </div>
     <div class="diagram-arrow" aria-hidden="true">→</div>
     <div class="diagram-node">
-      <span>Приём</span>
-      <strong>Загрузка файлов</strong>
+      <strong>Приём и загрузка<br />файлов</strong>
+      <span class="diagram-icon folder-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M3 6.6c0-1 .8-1.8 1.8-1.8h5l2 2h7.4c1 0 1.8.8 1.8 1.8v9.8c0 1-.8 1.8-1.8 1.8H4.8c-1 0-1.8-.8-1.8-1.8V6.6Zm2 .2v2.1h14V8.6H11L9 6.8H5Z"/></svg>
+      </span>
     </div>
     <div class="diagram-arrow" aria-hidden="true">→</div>
     <div class="diagram-node process">
-      <span>Обработка</span>
+      <strong>Обработка</strong>
       <ol>
         <li>Аудио</li>
         <li>Распознавание</li>
         <li>Анализ</li>
         <li>Монтаж</li>
       </ol>
+      <span class="diagram-icon chip-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M8 3h2v3h4V3h2v3h1.5A2.5 2.5 0 0 1 20 8.5V10h3v2h-3v2h3v2h-3v1.5a2.5 2.5 0 0 1-2.5 2.5H16v3h-2v-3h-4v3H8v-3H6.5A2.5 2.5 0 0 1 4 17.5V16H1v-2h3v-2H1v-2h3V8.5A2.5 2.5 0 0 1 6.5 6H8V3Zm-1.5 5A.5.5 0 0 0 6 8.5v9c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5v-9a.5.5 0 0 0-.5-.5h-11Zm3 2h5v5h-5v-5Z"/></svg>
+      </span>
     </div>
     <div class="diagram-arrow" aria-hidden="true">→</div>
     <div class="diagram-node">
-      <span>Рендеринг</span>
-      <strong>Сборка результата</strong>
+      <strong>Рендеринг</strong>
+      <span class="diagram-icon render-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M4 5h16v14H4V5Zm2 2v10h12V7H6Zm4 2.5 5 2.5-5 2.5v-5Z"/></svg>
+      </span>
     </div>
     <div class="diagram-arrow" aria-hidden="true">→</div>
     <div class="diagram-node result">
-      <span>Выход</span>
       <strong>Готовое видео</strong>
+      <span class="diagram-icon video-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm2 4v10l7-5-7-5Z"/></svg>
+      </span>
     </div>
   </div>
   <div class="diagram-storage">
-    <span>Временное хранилище</span>
-    <i aria-hidden="true"></i>
-    <span>исходники / промежуточные файлы / отчёты</span>
+    <span>Хранилище<br />(временное)</span>
   </div>
 </figure>
