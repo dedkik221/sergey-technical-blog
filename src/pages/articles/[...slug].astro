@@ -1,0 +1,72 @@
+---
+import { getCollection, render } from 'astro:content';
+import AuthorSidebar from '@components/AuthorSidebar.astro';
+import FeedbackForm from '@components/FeedbackForm.astro';
+import Layout from '@components/Layout.astro';
+import TableOfContents from '@components/TableOfContents.astro';
+import { formatDate, pathForArticle, readingTime } from '@lib/content';
+import { articleJsonLd, breadcrumbJsonLd } from '@lib/seo';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles');
+  return articles
+    .filter((article) => !article.data.draft)
+    .map((article) => ({
+      params: { slug: article.id },
+      props: { article }
+    }));
+}
+
+const { article } = Astro.props;
+const { Content, headings } = await render(article);
+const path = pathForArticle(article.id);
+const jsonLd = [
+  articleJsonLd(article.data, path),
+  breadcrumbJsonLd([
+    { name: 'Главная', path: '/' },
+    { name: 'Статьи', path: '/articles/' },
+    { name: article.data.title, path }
+  ])
+];
+---
+
+<Layout
+  title={article.data.title}
+  description={article.data.description}
+  path={path}
+  type="article"
+  jsonLd={jsonLd}
+>
+  <div class="article-shell shell">
+    <AuthorSidebar />
+
+    <article class="article-main" data-pagefind-body>
+      <header class="article-header">
+        <div class="article-meta">
+          <time datetime={article.data.datePublished.toISOString()}>
+            {formatDate(article.data.datePublished)}
+          </time>
+          <span>{readingTime(article)} мин чтения</span>
+          <span>{article.data.tags.slice(0, 4).join(', ')}</span>
+        </div>
+        <h1>{article.data.title}</h1>
+        <p>{article.data.description}</p>
+      </header>
+
+      <div class="prose article-content">
+        <Content />
+      </div>
+
+      <section class="article-cta" data-pagefind-ignore>
+        <FeedbackForm compact />
+      </section>
+
+      <footer class="article-next" data-pagefind-ignore>
+        <a href="/projects/unicube/">Проект Unicube</a>
+        <a href="/articles/">Все статьи</a>
+      </footer>
+    </article>
+
+    <TableOfContents headings={headings} />
+  </div>
+</Layout>

@@ -1,0 +1,39 @@
+---
+import FeedbackForm from '@components/FeedbackForm.astro';
+import Layout from '@components/Layout.astro';
+import { breadcrumbJsonLd } from '@lib/seo';
+import { site } from '@lib/site';
+
+const jsonLd = breadcrumbJsonLd([
+  { name: 'Главная', path: '/' },
+  { name: 'Контакты', path: '/contact/' }
+]);
+---
+
+<Layout
+  title="Контакты"
+  description="Связаться с Сергеем, предложить тестовый сценарий для AI-автомонтажа или оставить раннюю обратную связь."
+  path="/contact/"
+  jsonLd={jsonLd}
+>
+  <section class="page-head shell" data-pagefind-body>
+    <p class="eyebrow">контакты</p>
+    <h1>Если хотите протестировать инструмент, опишите свой монтажный сценарий.</h1>
+    <p>
+      Лучше всего подходят реальные задачи: лекции с дублями, короткие вертикальные
+      ролики, подкасты, мультикамера, прямые эфиры и материалы с голосовыми метками.
+    </p>
+  </section>
+
+  <section class="section shell feedback-band">
+    <div>
+      <p class="eyebrow">напрямую</p>
+      <h2>Связь</h2>
+      <div class="contact-list" data-pagefind-ignore>
+        <a href={site.author.telegram}>Telegram</a>
+        <a href={`mailto:${site.author.email}`}>{site.author.email}</a>
+      </div>
+    </div>
+    <FeedbackForm />
+  </section>
+</Layout>

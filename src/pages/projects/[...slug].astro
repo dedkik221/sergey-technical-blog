@@ -1,0 +1,57 @@
+---
+import { getCollection, render } from 'astro:content';
+import AuthorSidebar from '@components/AuthorSidebar.astro';
+import FeedbackForm from '@components/FeedbackForm.astro';
+import Layout from '@components/Layout.astro';
+import TableOfContents from '@components/TableOfContents.astro';
+import { formatDate, pathForProject } from '@lib/content';
+import { breadcrumbJsonLd, softwareApplicationJsonLd } from '@lib/seo';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project }
+  }));
+}
+
+const { project } = Astro.props;
+const { Content, headings } = await render(project);
+const path = pathForProject(project.id);
+const jsonLd = [
+  softwareApplicationJsonLd(project.data, path),
+  breadcrumbJsonLd([
+    { name: 'Главная', path: '/' },
+    { name: 'Проекты', path: '/projects/' },
+    { name: project.data.title, path }
+  ])
+];
+---
+
+<Layout title={project.data.title} description={project.data.description} path={path} jsonLd={jsonLd}>
+  <div class="article-shell shell">
+    <AuthorSidebar />
+
+    <article class="article-main" data-pagefind-body>
+      <header class="article-header">
+        <div class="article-meta">
+          <span>{project.data.status}</span>
+          <time datetime={project.data.dateModified.toISOString()}>обновлено {formatDate(project.data.dateModified)}</time>
+          <span>{project.data.tags.slice(0, 4).join(', ')}</span>
+        </div>
+        <h1>{project.data.title}</h1>
+        <p>{project.data.description}</p>
+      </header>
+
+      <div class="prose article-content">
+        <Content />
+      </div>
+
+      <section class="article-cta" data-pagefind-ignore>
+        <FeedbackForm compact />
+      </section>
+    </article>
+
+    <TableOfContents headings={headings} />
+  </div>
+</Layout>

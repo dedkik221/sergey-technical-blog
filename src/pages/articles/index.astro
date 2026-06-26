@@ -1,0 +1,153 @@
+---
+import ArticleCard from '@components/ArticleCard.astro';
+import Layout from '@components/Layout.astro';
+import { getDraftArticles, getPublishedArticles } from '@lib/content';
+import { blogJsonLd, breadcrumbJsonLd } from '@lib/seo';
+
+const articles = await getPublishedArticles();
+const drafts = await getDraftArticles();
+const tags = [...new Set([...articles, ...drafts].flatMap((article) => article.data.tags))].sort();
+
+const jsonLd = [
+  blogJsonLd,
+  breadcrumbJsonLd([
+    { name: 'Главная', path: '/' },
+    { name: 'Статьи', path: '/articles/' }
+  ])
+];
+---
+
+<Layout
+  title="Статьи"
+  description="Технические статьи и devlog о видео, AI-автомонтаже, Premiere/DaVinci, автоматизации и self-hosted workflow."
+  path="/articles/"
+  jsonLd={jsonLd}
+>
+  <section class="page-head shell" data-pagefind-body>
+    <p class="eyebrow">статьи</p>
+    <h1>Технический дневник без SEO-шума.</h1>
+    <p>
+      Здесь будут статьи о разработке инструментов для монтажа, аудиоанализе,
+      автоматизации, self-hosted инфраструктуре и практических ограничениях AI.
+    </p>
+  </section>
+
+  <section class="section shell search-panel" data-pagefind-ignore>
+    <div class="search-box">
+      <label for="site-search">Поиск по сайту</label>
+      <input id="site-search" name="search" type="search" placeholder="AI-автомонтаж, Premiere, VAD..." autocomplete="off" />
+      <div id="search-results" class="search-results" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="section shell" data-pagefind-ignore>
+    <div class="tag-filter" aria-label="Фильтр по тегам">
+      <button type="button" class="is-active" data-tag-filter="all">Все</button>
+      {tags.map((tag) => <button type="button" data-tag-filter={tag}>{tag}</button>)}
+    </div>
+  </section>
+
+  <section class="section shell">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">опубликовано</p>
+        <h2>Материалы</h2>
+      </div>
+    </div>
+    <div class="card-grid" id="article-grid">
+      {
+        articles.map((article) => (
+          <div data-article-card data-tags={article.data.tags.join(',')}>
+            <ArticleCard article={article} />
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section shell">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">черновики</p>
+        <h2>План следующих заметок</h2>
+      </div>
+    </div>
+    <div class="draft-list">
+      {drafts.map((article) => <ArticleCard article={article} muted />)}
+    </div>
+  </section>
+
+  <script is:inline type="module">
+    window.addEventListener('DOMContentLoaded', () => {
+      const buttons = document.querySelectorAll('[data-tag-filter]');
+      const cards = document.querySelectorAll('[data-article-card]');
+      const searchInput = document.querySelector('#site-search');
+      const searchResults = document.querySelector('#search-results');
+      let pagefind;
+
+      const clearResults = () => {
+        if (!searchResults) return;
+        searchResults.replaceChildren();
+      };
+
+      const renderResults = (items) => {
+        if (!searchResults) return;
+        searchResults.replaceChildren();
+
+        if (items.length === 0) {
+          const empty = document.createElement('p');
+          empty.textContent = 'Ничего не найдено.';
+          searchResults.append(empty);
+          return;
+        }
+
+        const list = document.createElement('ol');
+        for (const item of items) {
+          const li = document.createElement('li');
+          const link = document.createElement('a');
+          const title = document.createElement('strong');
+          const excerpt = document.createElement('p');
+
+          link.href = item.url;
+          title.textContent = item.meta?.title || item.url;
+          excerpt.innerHTML = item.excerpt || '';
+          link.append(title, excerpt);
+          li.append(link);
+          list.append(li);
+        }
+        searchResults.append(list);
+      };
+
+      const runSearch = async () => {
+        const query = searchInput?.value.trim();
+        if (!query) {
+          clearResults();
+          return;
+        }
+
+        try {
+          pagefind ||= await import('/pagefind/pagefind.js');
+          const search = await pagefind.search(query);
+          const items = await Promise.all(search.results.slice(0, 6).map((result) => result.data()));
+          renderResults(items);
+        } catch {
+          clearResults();
+        }
+      };
+
+      searchInput?.addEventListener('input', runSearch);
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const tag = button.getAttribute('data-tag-filter');
+          buttons.forEach((item) => item.classList.remove('is-active'));
+          button.classList.add('is-active');
+          cards.forEach((card) => {
+            const tags = (card.getAttribute('data-tags') || '').split(',');
+            card.toggleAttribute('hidden', tag !== 'all' && !tags.includes(tag || ''));
+          });
+        });
+      });
+    });
+  </script>
+</Layout>

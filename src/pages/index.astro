@@ -1,0 +1,90 @@
+---
+import ArticleCard from '@components/ArticleCard.astro';
+import FeedbackForm from '@components/FeedbackForm.astro';
+import Layout from '@components/Layout.astro';
+import ProjectCard from '@components/ProjectCard.astro';
+import { getProjects, getPublishedArticles } from '@lib/content';
+import { breadcrumbJsonLd, personJsonLd, websiteJsonLd } from '@lib/seo';
+import { site } from '@lib/site';
+
+const articles = await getPublishedArticles();
+const projects = await getProjects();
+
+const jsonLd = [
+  websiteJsonLd,
+  personJsonLd,
+  breadcrumbJsonLd([{ name: 'Главная', path: '/' }])
+];
+---
+
+<Layout
+  title={site.name}
+  description={site.description}
+  path="/"
+  jsonLd={jsonLd}
+>
+  <section class="home-intro shell" data-pagefind-body>
+    <p class="eyebrow">личный технический блог</p>
+    <h1>Я пишу о видео, автоматизации, AI-инструментах и self-hosted workflow.</h1>
+    <p class="lead">
+      Здесь фиксирую рабочие решения, ограничения и честные промежуточные
+      результаты: от чернового монтажа и аудиоанализа до локальной инфраструктуры.
+    </p>
+  </section>
+
+  <section class="section shell now-block" data-pagefind-body>
+    <div>
+      <p class="eyebrow">сейчас работаю над</p>
+      <h2>Unicube / AI-автомонтаж</h2>
+    </div>
+    <div class="text-block">
+      <p>
+        Транскрипт, аудиоанализ, выбранные фразы, EditPlan и экспорт в монтажную
+        программу. Цель — быстрее получить аккуратный черновик и список мест для
+        проверки, а не заменить монтажёра.
+      </p>
+      <a href="/projects/unicube/">Открыть проект</a>
+    </div>
+  </section>
+
+  <section class="section shell">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">последние статьи</p>
+        <h2>Журнал разработки</h2>
+      </div>
+      <a href="/articles/">Все статьи</a>
+    </div>
+    <div class="card-grid">
+      {articles.slice(0, 3).map((article) => <ArticleCard article={article} />)}
+    </div>
+  </section>
+
+  <section class="section shell">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">проекты</p>
+        <h2>Что собирается сейчас</h2>
+      </div>
+      <a href="/projects/">Все проекты</a>
+    </div>
+    <div class="card-grid">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+
+  <section class="section shell about-strip" data-pagefind-body>
+    <div>
+      <p class="eyebrow">обо мне</p>
+      <h2>Рабочая кухня вместо витрины.</h2>
+    </div>
+    <p>
+      Этот сайт — личный devlog: заметки о пайплайнах, ошибках, проверках и
+      инструментах, которые постепенно превращаются в полезные процессы.
+    </p>
+  </section>
+
+  <section class="section shell feedback-band" id="feedback">
+    <FeedbackForm />
+  </section>
+</Layout>

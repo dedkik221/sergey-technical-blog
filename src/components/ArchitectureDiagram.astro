@@ -1,0 +1,39 @@
+<figure class="architecture-diagram" aria-labelledby="architecture-diagram-title">
+  <figcaption id="architecture-diagram-title">Архитектура сервиса на верхнем уровне</figcaption>
+  <div class="diagram-flow" aria-label="Поток обработки видео">
+    <div class="diagram-node source">
+      <span>Пользователь</span>
+      <strong>Telegram</strong>
+    </div>
+    <div class="diagram-arrow" aria-hidden="true">→</div>
+    <div class="diagram-node">
+      <span>Приём</span>
+      <strong>Загрузка файлов</strong>
+    </div>
+    <div class="diagram-arrow" aria-hidden="true">→</div>
+    <div class="diagram-node process">
+      <span>Обработка</span>
+      <ol>
+        <li>Аудио</li>
+        <li>Распознавание</li>
+        <li>Анализ</li>
+        <li>Монтаж</li>
+      </ol>
+    </div>
+    <div class="diagram-arrow" aria-hidden="true">→</div>
+    <div class="diagram-node">
+      <span>Рендеринг</span>
+      <strong>Сборка результата</strong>
+    </div>
+    <div class="diagram-arrow" aria-hidden="true">→</div>
+    <div class="diagram-node result">
+      <span>Выход</span>
+      <strong>Готовое видео</strong>
+    </div>
+  </div>
+  <div class="diagram-storage">
+    <span>Временное хранилище</span>
+    <i aria-hidden="true"></i>
+    <span>исходники / промежуточные файлы / отчёты</span>
+  </div>
+</figure>

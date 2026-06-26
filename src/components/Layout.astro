@@ -1,0 +1,56 @@
+---
+import Footer from '@components/Footer.astro';
+import Header from '@components/Header.astro';
+import SEO from '@components/SEO.astro';
+import { site } from '@lib/site';
+import '@styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  path?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  jsonLd?: unknown | unknown[];
+  noindex?: boolean;
+}
+
+const { title, description, path, image, type, jsonLd, noindex } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <SEO
+      title={title}
+      description={description}
+      path={path}
+      image={image}
+      type={type}
+      jsonLd={jsonLd}
+      noindex={noindex}
+    />
+    {
+      site.cloudflareAnalyticsToken && (
+        <script
+          is:inline
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={JSON.stringify({ token: site.cloudflareAnalyticsToken })}
+        />
+      )
+    }
+  </head>
+  <body>
+    <a class="skip-link" href="#content">К содержанию</a>
+    <Header />
+    <main id="content" class="site-main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,66 @@
+---
+import Layout from '@components/Layout.astro';
+import { breadcrumbJsonLd, personJsonLd } from '@lib/seo';
+import { site } from '@lib/site';
+
+const jsonLd = [
+  personJsonLd,
+  breadcrumbJsonLd([
+    { name: 'Главная', path: '/' },
+    { name: 'Обо мне', path: '/about/' }
+  ])
+];
+---
+
+<Layout
+  title="Обо мне"
+  description="Коротко о Сергее: видео, монтаж, автоматизация, AI-инструменты, self-hosted workflow и личные инженерные заметки."
+  path="/about/"
+  jsonLd={jsonLd}
+>
+  <section class="page-head shell" data-pagefind-body>
+    <p class="eyebrow">обо мне</p>
+    <h1>Я работаю на пересечении видео, монтажа, автоматизации и AI.</h1>
+    <p>
+      Этот сайт — личный devlog и портфолио исследований. Не компания, не громкая
+      витрина продукта, а место, где можно увидеть ход мысли, архитектуру и
+      аккуратные промежуточные результаты.
+    </p>
+  </section>
+
+  <section class="section shell section-grid" data-pagefind-body>
+    <div>
+      <p class="eyebrow">фокус</p>
+      <h2>Что мне интересно</h2>
+    </div>
+    <div class="text-block">
+      <p>
+        Я разбираю, как ускорять рутинные части видеопроизводства: черновой монтаж,
+        анализ пауз и дублей, подготовку таймлайна, субтитры, локальную обработку
+        и связку монтажных программ с внешними инструментами.
+      </p>
+      <p>
+        Важный критерий — не “AI всё сделает”, а контролируемый процесс: понятные
+        входы, проверяемые выходы и возможность быстро найти место, где алгоритм
+        ошибся.
+      </p>
+    </div>
+  </section>
+
+  <section class="section shell compact-list" data-pagefind-body>
+    <p class="eyebrow">темы</p>
+    <h2>Что будет в блоге</h2>
+    <ul>
+      <li>AI-автомонтаж, rough cut, EditPlan и монтажные пайплайны.</li>
+      <li>Premiere Pro, DaVinci Resolve, FCPXML, маркеры и плагины.</li>
+      <li>WhisperX, VAD, RMS, аудиоанализ и границы речи.</li>
+      <li>Self-hosted обработка, стоимость прогонов и локальные инструменты.</li>
+    </ul>
+  </section>
+
+  <section class="section shell contact-strip" data-pagefind-ignore>
+    <a href={site.author.telegram}>Telegram</a>
+    <a href={`mailto:${site.author.email}`}>Email</a>
+    <a href={site.author.github}>GitHub</a>
+  </section>
+</Layout>

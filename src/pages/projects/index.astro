@@ -1,0 +1,44 @@
+---
+import Layout from '@components/Layout.astro';
+import ProjectCard from '@components/ProjectCard.astro';
+import { getProjects } from '@lib/content';
+import { breadcrumbJsonLd } from '@lib/seo';
+
+const projects = await getProjects();
+const jsonLd = breadcrumbJsonLd([
+  { name: 'Главная', path: '/' },
+  { name: 'Проекты', path: '/projects/' }
+]);
+---
+
+<Layout
+  title="Проекты"
+  description="Проекты и рабочие направления: AI-автомонтаж, self-hosted видеообработка, Premiere workflow tools и заметки о разработке."
+  path="/projects/"
+  jsonLd={jsonLd}
+>
+  <section class="page-head shell" data-pagefind-body>
+    <p class="eyebrow">проекты</p>
+    <h1>Рабочие направления, которые постепенно превращаются в инструменты.</h1>
+    <p>
+      Это не витрина готовой компании, а карта личных исследований и pet-projects:
+      от чернового монтажа до локальных пайплайнов обработки видео.
+    </p>
+  </section>
+
+  <section class="section shell">
+    <div class="card-grid">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+
+  <section class="section shell compact-list" data-pagefind-body>
+    <p class="eyebrow">следующие ветки</p>
+    <h2>Что появится позже</h2>
+    <ul>
+      <li><strong>Self-hosted video processing</strong> — локальная обработка и понятная стоимость прогона.</li>
+      <li><strong>Premiere workflow tools</strong> — панель и маркеры прямо внутри монтажного проекта.</li>
+      <li><strong>Future notes</strong> — короткие devlog-записи по мере проверки гипотез.</li>
+    </ul>
+  </section>
+</Layout>

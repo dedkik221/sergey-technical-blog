@@ -1,0 +1,48 @@
+---
+import { absoluteUrl, canonicalPath, site } from '@lib/site';
+
+interface Props {
+  title: string;
+  description: string;
+  path?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  jsonLd?: unknown | unknown[];
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  path = Astro.url.pathname,
+  image = '/images/og-default.svg',
+  type = 'website',
+  jsonLd,
+  noindex = false
+} = Astro.props;
+
+const canonical = absoluteUrl(canonicalPath(path));
+const fullTitle = title === site.name ? title : `${title} | ${site.shortName}`;
+const imageUrl = absoluteUrl(image);
+const structuredData = (Array.isArray(jsonLd) ? jsonLd : [jsonLd]).filter(Boolean);
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+
+<meta property="og:locale" content={site.locale} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:type" content={type} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageUrl} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+
+{structuredData.map((item) => <script is:inline type="application/ld+json" set:html={JSON.stringify(item)} />)}

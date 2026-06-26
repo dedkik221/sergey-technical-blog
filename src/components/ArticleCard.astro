@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, pathForArticle, readingTime } from '@lib/content';
+
+interface Props {
+  article: CollectionEntry<'articles'>;
+  muted?: boolean;
+}
+
+const { article, muted = false } = Astro.props;
+const href = pathForArticle(article.id);
+---
+
+<article class:list={['content-card', muted && 'is-muted']}>
+  <div class="card-meta">
+    <time datetime={article.data.datePublished.toISOString()}>{formatDate(article.data.datePublished)}</time>
+    <span>{readingTime(article)} мин чтения</span>
+  </div>
+  <h2>
+    {
+      article.data.draft ? (
+        article.data.title
+      ) : (
+        <a href={href}>{article.data.title}</a>
+      )
+    }
+  </h2>
+  <p>{article.data.description}</p>
+  <ul class="tag-list" aria-label="Теги">
+    {article.data.tags.map((tag) => <li>{tag}</li>)}
+  </ul>
+</article>

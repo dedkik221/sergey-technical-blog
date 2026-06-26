@@ -1,0 +1,23 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { pathForProject } from '@lib/content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const href = pathForProject(project.id);
+---
+
+<article class="content-card project-card">
+  <div class="card-meta">
+    <span>{project.data.status}</span>
+    <span>{project.data.tags.slice(0, 2).join(' / ')}</span>
+  </div>
+  <h2><a href={href}>{project.data.title}</a></h2>
+  <p>{project.data.description}</p>
+  <ul class="tag-list" aria-label="Теги проекта">
+    {project.data.tags.map((tag) => <li>{tag}</li>)}
+  </ul>
+</article>

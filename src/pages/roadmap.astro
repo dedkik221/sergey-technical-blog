@@ -1,0 +1,53 @@
+---
+import Layout from '@components/Layout.astro';
+import { breadcrumbJsonLd } from '@lib/seo';
+
+const jsonLd = breadcrumbJsonLd([
+  { name: 'Главная', path: '/' },
+  { name: 'Roadmap', path: '/roadmap/' }
+]);
+---
+
+<Layout
+  title="Roadmap"
+  description="План разработки AI-автомонтажа: MVP, Premiere-плагин, анализ дублей, Telegram-сценарии, early access и сбор обратной связи."
+  path="/roadmap/"
+  jsonLd={jsonLd}
+>
+  <section class="page-head shell" data-pagefind-body>
+    <p class="eyebrow">roadmap</p>
+    <h1>План без обещаний “скоро всё само”.</h1>
+    <p>
+      Каждая ступень должна давать проверяемый результат: файл, маркеры, rough cut,
+      отчёт или понятный список мест для ручной проверки.
+    </p>
+  </section>
+
+  <section class="timeline shell" data-pagefind-body>
+    <article>
+      <span>MVP</span>
+      <h2>Черновой монтаж по транскрипту</h2>
+      <p>SRT/FCPXML, выбранные фразы, matches/unmatched, safe/tight rough cut.</p>
+    </article>
+    <article>
+      <span>Audio Atlas</span>
+      <h2>Анализ речи, пауз и шумовых событий</h2>
+      <p>RMS, VAD, WhisperX/wav2vec2, миллисекундные границы и HTML-отчёт для глаз.</p>
+    </article>
+    <article>
+      <span>Premiere</span>
+      <h2>Панель и маркеры внутри проекта</h2>
+      <p>UXP-панель, файловый мост к локальному анализатору, duration markers.</p>
+    </article>
+    <article>
+      <span>Telegram</span>
+      <h2>Быстрый слой для Reels/Shorts</h2>
+      <p>Отдельная ветка для простых сценариев, где не нужен полный монтажный проект.</p>
+    </article>
+    <article>
+      <span>Early access</span>
+      <h2>Сбор реальных сценариев</h2>
+      <p>Проверка на лекциях, подкастах, дублях, мультикамере и голосовых метках оператора.</p>
+    </article>
+  </section>
+</Layout>

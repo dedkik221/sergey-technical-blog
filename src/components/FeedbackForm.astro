@@ -1,0 +1,61 @@
+---
+import { site } from '@lib/site';
+
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+const feedbackReady = Boolean(site.feedbackEndpoint);
+const roles = ['монтажёр', 'блогер', 'SMM', 'предприниматель', 'другое'];
+---
+
+<form
+  class:list={['feedback-form', compact && 'is-compact']}
+  action={feedbackReady ? site.feedbackEndpoint : undefined}
+  method={feedbackReady ? 'POST' : undefined}
+>
+  <div class="form-intro">
+    <h2>Хочешь протестировать сервис первым?</h2>
+    <p>
+      Я собираю список людей, которым интересен такой инструмент. Оставь почту —
+      напишу, когда будет готово.
+    </p>
+  </div>
+
+  <div class="form-grid">
+    <label>
+      <span>Email</span>
+      <input type="email" name="email" placeholder="name@example.com" autocomplete="email" />
+    </label>
+
+    <label>
+      <span>Роль</span>
+      <select name="role">
+        {roles.map((role) => <option value={role}>{role}</option>)}
+      </select>
+    </label>
+  </div>
+
+  <label>
+    <span>Какой контент монтируете</span>
+    <input name="content_type" placeholder="лекции, Reels, подкасты, эфиры..." />
+  </label>
+
+  <label>
+    <span>Что занимает больше всего времени</span>
+    <textarea name="main_pain" rows="4" placeholder="черновая нарезка, дубли, паузы, субтитры..." />
+  </label>
+
+  <label class="check-row">
+    <input type="checkbox" name="early_access" value="yes" />
+    <span>Хочу протестировать раннюю версию</span>
+  </label>
+
+  <div class="form-actions">
+    <button type={feedbackReady ? 'submit' : 'button'} disabled={!feedbackReady}>
+      {feedbackReady ? 'Хочу попробовать' : 'Endpoint формы задается в конфиге'}
+    </button>
+    <a href={site.author.telegram}>Написать в Telegram</a>
+  </div>
+</form>

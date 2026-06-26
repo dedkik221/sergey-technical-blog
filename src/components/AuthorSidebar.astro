@@ -1,0 +1,49 @@
+---
+import { getPublishedArticles, pathForArticle } from '@lib/content';
+import { site } from '@lib/site';
+
+const articles = await getPublishedArticles();
+const feedbackReady = Boolean(site.feedbackEndpoint);
+---
+
+<aside class="author-sidebar" data-pagefind-ignore>
+  <div class="author-card">
+    <div class="author-avatar" aria-hidden="true">{site.author.avatarInitials}</div>
+    <div>
+      <p class="author-kicker">Автор</p>
+      <h2>{site.author.name}</h2>
+      <p>{site.author.sidebarDescription}</p>
+    </div>
+  </div>
+
+  <nav class="sidebar-links" aria-label="Ссылки автора">
+    <a href="/about/">Обо мне</a>
+    <a href="/projects/">Проекты</a>
+    <a href={site.author.github}>GitHub</a>
+    <a href={site.author.telegram}>Telegram</a>
+  </nav>
+
+  <section class="sidebar-section">
+    <h3>Последние статьи</h3>
+    <ol class="latest-list">
+      {
+        articles.slice(0, 5).map((article) => (
+          <li>
+            <a href={pathForArticle(article.id)}>{article.data.title}</a>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="sidebar-section subscribe-box">
+    <h3>Подписка</h3>
+    <p>Редкие заметки о видео, автоматизации и AI-инструментах.</p>
+    <form action={feedbackReady ? site.feedbackEndpoint : undefined} method={feedbackReady ? 'POST' : undefined}>
+      <input type="email" name="email" placeholder="email@example.com" autocomplete="email" />
+      <button type={feedbackReady ? 'submit' : 'button'}>{feedbackReady ? 'Подписаться' : 'Скоро'}</button>
+    </form>
+  </section>
+
+  <p class="sidebar-copy">© {new Date().getFullYear()} {site.author.name}</p>
+</aside>
