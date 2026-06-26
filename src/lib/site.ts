@@ -11,7 +11,7 @@ export const site = {
   author: {
     name: 'Сергей',
     avatarInitials: 'С',
-    avatarImage: '/images/avatar.svg',
+    avatarImage: '/images/avatar.png',
     role: 'видео / автоматизация / AI-инструменты',
     description:
       'Я исследую и собираю инструменты на стыке видеопроизводства, автоматизации монтажа, AI и локальной инфраструктуры.',

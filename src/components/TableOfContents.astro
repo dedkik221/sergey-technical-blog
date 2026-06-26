@@ -7,9 +7,16 @@ interface Heading {
 
 interface Props {
   headings: Heading[];
+  outline?: string[];
 }
 
-const headings = Astro.props.headings.filter((heading) => heading.depth > 1 && heading.depth <= 3);
+const { outline } = Astro.props;
+const h2Headings = Astro.props.headings.filter((heading) => heading.depth === 2);
+const headings = outline?.length
+  ? outline
+      .map((item) => h2Headings.find((heading) => heading.text === item))
+      .filter((heading): heading is Heading => Boolean(heading))
+  : h2Headings;
 ---
 
 {

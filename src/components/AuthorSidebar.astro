@@ -11,7 +11,7 @@ const feedbackReady = Boolean(site.feedbackEndpoint);
 
 <aside class="author-sidebar" data-pagefind-ignore>
   <div class="author-card">
-    <img class="author-avatar" src={site.author.avatarImage} alt="" width="96" height="96" loading="lazy" />
+    <img class="author-avatar" src={site.author.avatarImage} alt="" width="96" height="96" loading="eager" />
     <div>
       <p class="author-kicker">Автор</p>
       <h2>{site.author.name}</h2>
@@ -20,10 +20,32 @@ const feedbackReady = Boolean(site.feedbackEndpoint);
   </div>
 
   <nav class="sidebar-links" aria-label="Ссылки автора">
-    <a href="/about/">Обо мне</a>
-    <a href="/projects/">Проекты</a>
-    <a href={site.author.github}>GitHub</a>
-    <a href={site.author.telegram}>Telegram</a>
+    <a href="/about/">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 12.2a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7 8.3a7 7 0 0 0-14 0" />
+      </svg>
+      <span>Обо мне</span>
+    </a>
+    <a href="/projects/">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6.5 7.5h11A2.5 2.5 0 0 1 20 10v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 18v-8a2.5 2.5 0 0 1 2.5-2.5Z" />
+        <path d="M9 7.5v-2h6v2M8 13h8" />
+      </svg>
+      <span>Проекты</span>
+    </a>
+    <a href={site.author.github}>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2.8a9.2 9.2 0 0 0-2.9 17.93c.46.08.63-.2.63-.44v-1.62c-2.55.55-3.09-1.08-3.09-1.08-.42-1.06-1.02-1.34-1.02-1.34-.83-.57.06-.56.06-.56.92.06 1.4.95 1.4.95.82 1.39 2.15.99 2.67.76.09-.6.32-.99.58-1.23-2.03-.23-4.17-1.02-4.17-4.53 0-1 .36-1.82.95-2.46-.1-.23-.4-1.16.09-2.42 0 0 .76-.24 2.51.94a8.62 8.62 0 0 1 4.58 0c1.74-1.18 2.51-.94 2.51-.94.49 1.26.18 2.19.09 2.42.59.64.95 1.45.95 2.46 0 3.52-2.15 4.3-4.19 4.52.33.29.62.85.62 1.72v2.55c0 .25.17.54.64.45A9.2 9.2 0 0 0 12 2.8Z" />
+      </svg>
+      <span>GitHub</span>
+    </a>
+    <a href={site.author.telegram}>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20.5 4.5 3.8 10.9c-1.05.42-1.03 1.02-.18 1.28l4.28 1.34 1.64 5.04c.2.55.1.76.67.76.43 0 .63-.2.87-.43l2.17-2.11 4.49 3.32c.82.45 1.39.22 1.6-.76l2.93-13.82c.28-1.15-.46-1.69-1.75-1.02Z" />
+        <path d="m8.8 13.22 9.42-5.94-8.05 7.28-.32 3.37-1.05-4.71Z" />
+      </svg>
+      <span>Telegram</span>
+    </a>
   </nav>
 
   <section class="sidebar-section">
@@ -55,5 +77,5 @@ const feedbackReady = Boolean(site.feedbackEndpoint);
     </form>
   </section>
 
-  <p class="sidebar-copy">© {new Date().getFullYear()} {site.author.name}</p>
+  <p class="sidebar-copy">© {new Date().getFullYear()} {site.shortName}</p>
 </aside>
